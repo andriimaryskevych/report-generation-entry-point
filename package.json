@@ -8,7 +8,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "zip": "zip -r archive.zip ./node_modules/ ./index.js  ./package-lock.json ./package.json"
+    "zip": "npm run delete:zip && npm run create:zip",
+    "delete:zip": "rm ./archive.zip",
+    "create:zip": "zip -r archive.zip ./node_modules/ ./index.js  ./package-lock.json ./package.json"
   },
   "author": "",
   "license": "ISC"
