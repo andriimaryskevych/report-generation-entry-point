@@ -1,8 +1,13 @@
 const AWS = require('aws-sdk');
+AWS.config.update({region: 'eu-central-1'});
+
+const sqs = new AWS.SQS({apiVersion: '2012-11-05'});
 
 console.log('Loading function');
 
-exports.handler = async (event, context) => {
+const queueURL = 'https://sqs.eu-central-1.amazonaws.com/608669370019/reports-queue';
+
+exports.handler = async (event) => {
     try {
         let {
             dateFrom,
@@ -33,6 +38,21 @@ exports.handler = async (event, context) => {
             console.log('Date from:', dateFrom);
             console.log('Date to:', dateTo);
         }
+
+        var params = {
+            MessageBody: 'Hello world!',
+            QueueUrl: queueURL,
+            DelaySeconds: 0
+        };
+
+        sqs.sendMessage(params, function(err, data) {
+            if(err) {
+                res.send(err);
+            }
+            else {
+                res.send(data);
+            }
+        });
 
         return {
             dateFrom,
