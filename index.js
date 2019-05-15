@@ -47,8 +47,9 @@ exports.handler = (event, context, callback) => {
 
         console.log('Sending message to queue', JSON.stringify(params));
 
-        sqs.sendMessage(params, err => {
+        sqs.sendMessage(params, (err, data) => {
             if (!err) {
+                console.log('Successfully pushed message to queue', JSON.stringify(data))
                 callback(null, {
                     dateFrom,
                     dateTo
