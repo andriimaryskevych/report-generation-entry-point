@@ -45,19 +45,16 @@ exports.handler = async (event) => {
             DelaySeconds: 0
         };
 
-        sqs.sendMessage(params, function(err, data) {
-            if(err) {
-                res.send(err);
-            }
-            else {
-                res.send(data);
+        sqs.sendMessage(params, err => {
+            if (!err) {
+                return {
+                    dateFrom,
+                    dateTo
+                };
+            } else {
+                throw err;
             }
         });
-
-        return {
-            dateFrom,
-            dateTo
-        };
     } catch (error) {
         console.log('Error occured', error);
 
