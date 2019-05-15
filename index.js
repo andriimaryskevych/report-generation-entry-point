@@ -7,7 +7,7 @@ console.log('Loading function');
 
 const queueURL = 'https://sqs.eu-central-1.amazonaws.com/608669370019/reports-queue';
 
-exports.handler = async (event) => {
+exports.handler = (event, context, callback) => {
     try {
         let {
             dateFrom,
@@ -45,12 +45,14 @@ exports.handler = async (event) => {
             DelaySeconds: 0
         };
 
+        console.log('Sending message to queue', JSON.stringify(params));
+
         sqs.sendMessage(params, err => {
             if (!err) {
-                return {
+                callback(null, {
                     dateFrom,
                     dateTo
-                };
+                });
             } else {
                 throw err;
             }
@@ -58,6 +60,6 @@ exports.handler = async (event) => {
     } catch (error) {
         console.log('Error occured', error);
 
-        throw error;
+        callback(error, null);
     }
 };
