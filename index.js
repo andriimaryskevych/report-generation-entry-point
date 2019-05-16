@@ -40,7 +40,7 @@ exports.handler = (event, context, callback) => {
         }
 
         var params = {
-            MessageBody: 'Hello world!',
+            MessageBody: JSON.stringify({ dateFrom, dateTo }),
             QueueUrl: queueURL,
             DelaySeconds: 0
         };
